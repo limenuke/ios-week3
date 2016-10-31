@@ -25,7 +25,7 @@
 			<string>mlrshen.Twitter</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>cptwitterdemo</string>
+				<string>mstwitterdemo</string>
 			</array>
 		</dict>
 	</array>

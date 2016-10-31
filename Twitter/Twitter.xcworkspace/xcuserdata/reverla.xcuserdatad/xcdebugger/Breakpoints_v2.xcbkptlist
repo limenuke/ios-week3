@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Twitter/ViewController.swift"
-            timestampString = "499243918.992811"
+            filePath = "Twitter/Tweet.swift"
+            timestampString = "499497625.645724"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "onLogin(_:)"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "tweetsWithArray(dictionaries:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Twitter/AppDelegate.swift"
-            timestampString = "499244821.480583"
+            filePath = "Twitter/TwitterClient.swift"
+            timestampString = "499559312.891823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "application(_:open:sourceApplication:annotation:)"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "login(success:failure:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -20,10 +20,11 @@ class User: NSObject {
         name = dictionary["name"] as? String
         screenName = dictionary["screen_name"] as? String
         tagLine = dictionary["description"] as? String
-        
         let profileUrlString = dictionary["profile_image_url_https"] as? String
         if let profileUrlString = profileUrlString {
-            profileUrl = URL(string: profileUrlString)
+            let newUrl = profileUrlString.replacingOccurrences(of: "_normal", with: "")
+            profileUrl = URL(string: newUrl)
+            print ("Profile url string: \(profileUrlString)")
         }
         
     }

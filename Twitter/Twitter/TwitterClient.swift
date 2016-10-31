@@ -25,6 +25,13 @@ class TwitterClient: BDBOAuth1SessionManager {
     var loginSuccess: (() -> ())?
     var loginFailure: ((NSError) -> ())?
     
+    func logout() {
+        User.currentUser = nil
+        deauthorize()
+        let notificationName = NSNotification.Name("UserDidLogout")
+        NotificationCenter.default.post(name: notificationName, object: nil)
+    }
+    
     func login(success: @escaping () -> (), failure: @escaping (NSError) -> () ) {
         loginSuccess = success
         loginFailure = failure
@@ -95,6 +102,19 @@ class TwitterClient: BDBOAuth1SessionManager {
             failure(error as NSError)
         })
     }
+    
+    
+    func postTweet(params: NSDictionary?, completion: @escaping (NSError?) -> () ){
+        TwitterClient.sharedInstance.post("1.1/statuses/update.json", parameters: params, success: { (error, response) in
+                print ("Posted tweet!")
+                completion(nil)
+            }) { (session, error) in
+                print ("Error tweeting \(error.localizedDescription)")
+                completion(nil)
+            }
+    }
+
+    
     
     func homeTimeline(success: @escaping ([Tweet]) -> (), failure: @escaping (NSError) -> ()) {
         get("1.1/statuses/home_timeline.json", parameters: nil, success: { (operation, response) in

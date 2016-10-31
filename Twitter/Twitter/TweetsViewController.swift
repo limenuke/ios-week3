@@ -7,44 +7,87 @@
 //
 
 import UIKit
-//, UITableViewDelegate, UITableViewDataSource
-class TweetsViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
 
+class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var tableView: UITableView!
+    var refreshControl : UIRefreshControl!
     var tweets : [Tweet]?
+    
+    @IBAction func onLogout(_ sender: AnyObject) {
+        TwitterClient.sharedInstance.logout()
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        TwitterClient.sharedInstance.homeTimeline(success:
-        { (tweets: [Tweet]) in
-            self.tweets = tweets
-            for tweet in tweets {
-                print ("\(tweet.text)\n")
-            }
-        }) {
-        (error: NSError) in
-            print ("Error in TweetsVC : \(error.localizedDescription)")
+        let attrs = [
+            NSForegroundColorAttributeName: UIColor.white,
+        ]
+        
+        let navBar = self.navigationController?.navigationBar
+        navBar?.titleTextAttributes = attrs
+        navBar?.barTintColor = UIColor.blue
+        navBar?.tintColor = UIColor.white
+ 
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refresher", for: UIControlEvents.valueChanged)
+        
+        
+        tableView.insertSubview(refreshControl, at: 0)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
+        
+        loadData()
+                // Do any additional setup after loading the view.
+    }
     
+    func refresher() {
+        print ("Did a refresher!")
+        loadData()
+        if self.refreshControl.isRefreshing {
+            self.refreshControl.endRefreshing()
         }
-        // Do any additional setup after loading the view.
+    }
+    
+    func loadData () {
+        TwitterClient.sharedInstance.homeTimeline(success:
+            { (tweets: [Tweet]) in
+                print ("Got data")
+                self.tweets = tweets
+                self.tableView.reloadData()
+                
+        }) {
+            (error: NSError) in
+            print ("Error in TweetsVC : \(error.localizedDescription)")
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    /*
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        if tweets != nil {
+            return tweets!.count
+        } else {
+            return 0
+        }
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell  = tableView.dequeueReusableCell(withIdentifier: "", for: indexPath) as!
-        
+        let cell  = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as! TweetTableViewCell
+        cell.tweet = tweets![indexPath.row]
         return cell
-    }*/
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        loadData()
+    }
     /*
     // MARK: - Navigation
 

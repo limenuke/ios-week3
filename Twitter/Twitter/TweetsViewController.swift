@@ -89,7 +89,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        loadData()
+        //loadData()
     }
     
     
@@ -97,7 +97,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if (segue.identifier == "ShowCompose") {
             if let destVC = segue.destination as? UINavigationController {
                 let comVC = destVC.viewControllers[0] as! ComposeViewController
-                comVC.startText = sender as! String
+                comVC.startText = nil
             }
         } else if (segue.identifier == "DetailSegue") {
             print ("DetailSegue")

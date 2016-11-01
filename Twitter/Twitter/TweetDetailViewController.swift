@@ -24,7 +24,7 @@ class TweetDetailViewController: UIViewController {
     }
     
     @IBAction func onReply(_ sender: AnyObject) {
-        performSegue(withIdentifier: "ShowComposeReply", sender: String("@\(tweet?.myUser?.screenName!)"))
+        performSegue(withIdentifier: "ShowComposeReply", sender: String("@\(tweet!.myUser!.screenName!)"))
     }
     
     @IBAction func onFavorite(_ sender: AnyObject) {
@@ -68,7 +68,8 @@ class TweetDetailViewController: UIViewController {
         if (segue.identifier == "ShowComposeReply") {
             if let destVC = segue.destination as? UINavigationController {
                 let comVC = destVC.viewControllers[0] as! ComposeViewController
-                comVC.startText = sender as? String
+                let startStr = sender as! String
+                comVC.startText = startStr as String?
             }
         }
     }

@@ -8,20 +8,14 @@
 
 import UIKit
 
-class ComposeViewController: UIViewController, UITextFieldDelegate {
+class ComposeViewController: UIViewController, UITextViewDelegate {
     var startText : String?
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var textField: UITextView!
+    @IBOutlet weak var profileImg: UIImageView!
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var screenName: UILabel!
+    @IBOutlet weak var chars: UILabel!
     
-    /*
-    func textFieldShouldEndEditing(_ textField: UITextField) {
-        
-    }
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool
-    
-    textFieldDidBeginEditing:(UITextField *)textField {
-    textField.placeholder = nil;
-    }*/
     
     
     @IBAction func onCancel(_ sender: AnyObject) {
@@ -29,15 +23,25 @@ class ComposeViewController: UIViewController, UITextFieldDelegate {
             
         }
     }
-    
+    func textViewDidChange(_ textView: UITextView) {
+        print("Did edit...current chars is \(textField.text?.characters.count)")
+        chars.text = String((140 - (textField.text?.characters.count)!))
+        chars.sizeToFit()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        textField.contentVerticalAlignment = UIControlContentVerticalAlignment.top
         if (startText != nil) {
-            textField.text = startText
+            print ("The start text is \(startText) and it should be \(startText!)")
+            textField.text = startText!
         } else {
-            textField.placeholder = "What's happening?"
+            textField.text = ""
         }
+        profileImg.setImageWith((User.currentUser?.profileUrl)!)
+        name.text = User.currentUser?.name
+        screenName.text = User.currentUser?.screenName
+        chars.text = String((140 - (textField.text?.characters.count)!))
+        textField.delegate = self
         textField.becomeFirstResponder()
             // Do any additional setup after loading the view.
     }
@@ -50,6 +54,7 @@ class ComposeViewController: UIViewController, UITextFieldDelegate {
         })
 
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

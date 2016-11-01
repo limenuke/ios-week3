@@ -144,6 +144,8 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     
     
+    
+    
     func homeTimeline(success: @escaping ([Tweet]) -> (), failure: @escaping (NSError) -> ()) {
         get("1.1/statuses/home_timeline.json", parameters: nil, success: { (operation, response) in
             let tweetDictionaries = response as! [NSDictionary]

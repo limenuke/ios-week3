@@ -22,8 +22,9 @@ class Tweet: NSObject {
             
         }*/
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
-        favoritesCount = (dictionary["favourites_count"] as? Int) ?? 0
         self.myUser = User(dictionary: dictionary["user"] as! NSDictionary)
+        favoritesCount = (myUser?.favoritesCt) ?? 0
+        
         print ("My user's name: \(myUser?.name)")
         print ("My user's screen name: \(myUser?.screenName)")
         

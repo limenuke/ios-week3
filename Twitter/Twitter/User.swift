@@ -14,10 +14,11 @@ class User: NSObject {
     var tagLine : String?
     var screenName : String?
     var dictionary : NSDictionary?
-    
+    var favoritesCt : Int?
     init(dictionary :  NSDictionary) {
         self.dictionary = dictionary
         name = dictionary["name"] as? String
+        favoritesCt = dictionary["favourites_count"] as? Int
         screenName = dictionary["screen_name"] as? String
         tagLine = dictionary["description"] as? String
         let profileUrlString = dictionary["profile_image_url_https"] as? String

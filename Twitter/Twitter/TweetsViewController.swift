@@ -8,14 +8,16 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,TweetCellDelegate {
     @IBOutlet weak var tableView: UITableView!
     var refreshControl : UIRefreshControl!
     var tweets : [Tweet]?
     
+    @IBAction func onCompose(_ sender: AnyObject) {
+        performSegue(withIdentifier: "ShowCompose", sender: nil)
+    }
     @IBAction func onLogout(_ sender: AnyObject) {
         TwitterClient.sharedInstance.logout()
-        
     }
     
     override func viewDidLoad() {
@@ -82,11 +84,33 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let cell  = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: indexPath) as! TweetTableViewCell
         cell.tweet = tweets![indexPath.row]
+        cell.delegate = self
         return cell
     }
 
     override func viewWillAppear(_ animated: Bool) {
         loadData()
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "ShowCompose") {
+            if let destVC = segue.destination as? UINavigationController {
+                let comVC = destVC.viewControllers[0] as! ComposeViewController
+                comVC.startText = sender as! String
+            }
+        } else if (segue.identifier == "DetailSegue") {
+            print ("DetailSegue")
+            let thisTweet = sender as! Tweet
+            let detailNavController = segue.destination as! UINavigationController
+            let detailViewController = detailNavController.viewControllers[0] as! TweetDetailViewController
+            detailViewController.tweet = thisTweet
+        }
+    }
+    
+    func tweetCellDelegate(tweetCell: TweetTableViewCell) {
+        let indexPath = tableView.indexPath(for: tweetCell)
+        performSegue(withIdentifier: "DetailSegue", sender: tweets![(indexPath?.row)!] )
     }
     /*
     // MARK: - Navigation

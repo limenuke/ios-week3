@@ -9,6 +9,7 @@
 import UIKit
 
 class ComposeViewController: UIViewController, UITextFieldDelegate {
+    var startText : String?
     @IBOutlet weak var textField: UITextField!
     
     /*
@@ -32,8 +33,13 @@ class ComposeViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         textField.contentVerticalAlignment = UIControlContentVerticalAlignment.top
-        textField.placeholder = "What's happening?"
-        // Do any additional setup after loading the view.
+        if (startText != nil) {
+            textField.text = startText
+        } else {
+            textField.placeholder = "What's happening?"
+        }
+        textField.becomeFirstResponder()
+            // Do any additional setup after loading the view.
     }
     @IBAction func onTweet(_ sender: AnyObject) {
         var params = NSDictionary()

@@ -10,15 +10,40 @@ import UIKit
 
 class TweetDetailViewController: UIViewController {
 
+    @IBAction func onBack(_ sender: AnyObject) {
+        dismiss(animated: true) { 
+            print ("Dismissed")
+        }
+    }
+    var tweet : Tweet?
+    @IBAction func onFave(_ sender: AnyObject) {
+    }
+    @IBOutlet weak var favesLabel: UILabel!
+    @IBOutlet weak var tweetLabel: UILabel!
+    @IBOutlet weak var screenNameLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var retweetsLabel: UILabel!
+    @IBAction func onRetweet(_ sender: AnyObject) {
+    }
+    
+    @IBOutlet weak var profilePic: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        profilePic.setImageWith((tweet!.myUser?.profileUrl)!)
+        tweetLabel.text = tweet!.text
+        screenNameLabel.text = tweet!.myUser?.screenName
+        nameLabel.text = tweet!.myUser?.name
+        retweetsLabel.text = String(tweet!.retweetCount)
+        favesLabel.text = String(tweet!.favoritesCount)
+        
+        print (" the faves count is  \(tweet!.favoritesCount) ")
+        print (" the rt count is \(tweet!.retweetCount)" )
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 

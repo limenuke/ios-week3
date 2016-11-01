@@ -32,7 +32,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         navBar?.tintColor = UIColor.white
  
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refresher", for: UIControlEvents.valueChanged)
+        refreshControl.addTarget(self, action: #selector(TweetsViewController.refresher), for: UIControlEvents.valueChanged)
         
         
         tableView.insertSubview(refreshControl, at: 0)

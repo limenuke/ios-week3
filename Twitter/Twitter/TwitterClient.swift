@@ -116,6 +116,34 @@ class TwitterClient: BDBOAuth1SessionManager {
 
     
     
+    func favorite(id: Int, params: NSDictionary?, completion: @escaping (Error?) -> () ){
+        post("1.1/favorites/create.json?id=\(id)", parameters: params, success:
+            { (operation, response) -> Void in
+                print("favorite")
+                completion(nil)
+            }, failure:
+            { (operation, error) -> Void in
+                print("error favoriting")
+                completion(error)
+            }
+        )}
+    
+    
+    func retweet(id: Int, params: NSDictionary?, completion: @escaping (Error?) -> () ) {
+        post("1.1/statuses/retweet/\(id).json", parameters: params, progress:
+            { (progress) in
+                print ("Retweeting")
+            }, success:
+            { (session, response) in
+                print ("Retweeted successfully")
+                completion(nil)
+            }) { (session, error) in
+                print ("Got an error")
+                completion(error)
+            }
+        }
+    
+    
     func homeTimeline(success: @escaping ([Tweet]) -> (), failure: @escaping (NSError) -> ()) {
         get("1.1/statuses/home_timeline.json", parameters: nil, success: { (operation, response) in
             let tweetDictionaries = response as! [NSDictionary]

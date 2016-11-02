@@ -10,6 +10,7 @@ import UIKit
 
 class ComposeViewController: UIViewController, UITextViewDelegate {
     var startText : String?
+    var id_str : String?
     @IBOutlet weak var textField: UITextView!
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var name: UILabel!
@@ -32,8 +33,8 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         if (startText != nil) {
-            print ("The start text is \(startText) and it should be \(startText!)")
-            textField.text = startText!
+            print ("The start text is \(startText) and it should be \(startText!) the id_str is \(id_str!)")
+            textField.text = ("\(startText!) ")
         } else {
             textField.text = ""
         }
@@ -46,8 +47,11 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
             // Do any additional setup after loading the view.
     }
     @IBAction func onTweet(_ sender: AnyObject) {
-        var params = NSDictionary()
-        params = ["status" : textField.text!]
+        let params = NSMutableDictionary()
+        params["status"] = textField.text!
+        if (id_str != nil) {
+            params["in_reply_to_status_id"] = id_str!
+        }
         print(params)
         TwitterClient.sharedInstance.postTweet(params: params, completion: {(error) -> () in
             self.onCancel(self)

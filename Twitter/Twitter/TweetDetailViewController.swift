@@ -69,7 +69,9 @@ class TweetDetailViewController: UIViewController {
             if let destVC = segue.destination as? UINavigationController {
                 let comVC = destVC.viewControllers[0] as! ComposeViewController
                 let startStr = sender as! String
+                
                 comVC.startText = startStr as String?
+                comVC.id_str = tweet!.id_str!
             }
         }
     }
